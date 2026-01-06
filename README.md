@@ -33,6 +33,8 @@ python manage.py runserver
 
 De backend draait op `http://localhost:8000`
 
+**Belangrijk voor productie**: De Django SECRET_KEY in `backend/settings.py` is een development key. Voor productie moet deze in een omgevingsvariabele worden gezet.
+
 ### Frontend (React)
 ```bash
 # Ga naar de frontend directory

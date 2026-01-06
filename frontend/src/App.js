@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:8000/api';
@@ -17,10 +17,41 @@ function App() {
   const [totalAttempts, setTotalAttempts] = useState(0);
   const inputRef = useRef(null);
 
+  const generateExercise = useCallback(async (sid, type) => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/exercises/generate_${type}/`, {
+        params: { session_id: sid || sessionId }
+      });
+      setExercise(response.data);
+      setUserAnswer('');
+      setStartTime(Date.now());
+      setTimeElapsed(0);
+      setShowFeedback(false);
+      setFeedback('');
+    } catch (error) {
+      console.error('Error generating exercise:', error);
+    }
+  }, [sessionId]);
+
+  const createSession = useCallback(async () => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/sessions/`, {
+        current_level: 1,
+        consecutive_correct: 0,
+        consecutive_incorrect: 0
+      });
+      setSessionId(response.data.id);
+      setCurrentLevel(response.data.current_level);
+      generateExercise(response.data.id, 'math');
+    } catch (error) {
+      console.error('Error creating session:', error);
+    }
+  }, [generateExercise]);
+
   // Create a new session on mount
   useEffect(() => {
     createSession();
-  }, []);
+  }, [createSession]);
 
   // Timer for time pressure
   useEffect(() => {
@@ -38,37 +69,6 @@ function App() {
       inputRef.current.focus();
     }
   }, [exercise]);
-
-  const createSession = async () => {
-    try {
-      const response = await axios.post(`${API_BASE_URL}/sessions/`, {
-        current_level: 1,
-        consecutive_correct: 0,
-        consecutive_incorrect: 0
-      });
-      setSessionId(response.data.id);
-      setCurrentLevel(response.data.current_level);
-      generateExercise(response.data.id, 'math');
-    } catch (error) {
-      console.error('Error creating session:', error);
-    }
-  };
-
-  const generateExercise = async (sid, type) => {
-    try {
-      const response = await axios.get(`${API_BASE_URL}/exercises/generate_${type}/`, {
-        params: { session_id: sid || sessionId }
-      });
-      setExercise(response.data);
-      setUserAnswer('');
-      setStartTime(Date.now());
-      setTimeElapsed(0);
-      setShowFeedback(false);
-      setFeedback('');
-    } catch (error) {
-      console.error('Error generating exercise:', error);
-    }
-  };
 
   const submitAnswer = async () => {
     if (!userAnswer.trim()) return;
@@ -202,8 +202,13 @@ function App() {
                 onKeyPress={handleKeyPress}
                 placeholder="Type je antwoord..."
                 style={styles.input}
+                aria-label={`Antwoord op de vraag: ${exercise.question}`}
               />
-              <button onClick={submitAnswer} style={styles.submitButton}>
+              <button 
+                onClick={submitAnswer} 
+                style={styles.submitButton}
+                aria-label="Controleer je antwoord"
+              >
                 Controleer ✓
               </button>
             </div>
