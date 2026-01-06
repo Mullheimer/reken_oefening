@@ -1,0 +1,192 @@
+.exercise-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Progress info bar */
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 1.5rem;
+  padding: 0 0.5rem;
+}
+
+.correct-count {
+  font-size: 1.1rem;
+  color: #6b8e6b;
+  font-weight: 500;
+}
+
+.difficulty-badge {
+  background-color: #f0f5f0;
+  color: #5a7a5a;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+/* Streak indicator */
+.streak-indicator {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+  animation: fadeIn 0.3s ease;
+}
+
+.streak-star {
+  font-size: 1.5rem;
+  animation: starPop 0.3s ease;
+}
+
+@keyframes starPop {
+  0% {
+    transform: scale(0);
+  }
+  70% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Sum display */
+.sum-display {
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 2rem 2.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  min-width: 280px;
+  text-align: center;
+}
+
+.sum-numbers {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #3d5a6c;
+}
+
+.number {
+  min-width: 2ch;
+}
+
+.operator {
+  color: #87a0b0;
+}
+
+.equals {
+  color: #87a0b0;
+  margin: 0 0.25rem;
+}
+
+.answer {
+  min-width: 3ch;
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+  background-color: #f8fafb;
+  color: #3d5a6c;
+  transition: all 0.3s ease;
+}
+
+.answer.show-correct {
+  background-color: #e8f4e8;
+  color: #4a7c4a;
+}
+
+/* Feedback message */
+.feedback {
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  animation: fadeIn 0.3s ease;
+  text-align: center;
+  max-width: 90%;
+}
+
+.feedback.correct {
+  background-color: #e8f4e8;
+  color: #4a7c4a;
+}
+
+.feedback.incorrect {
+  background-color: #fff8e8;
+  color: #8a7a4a;
+}
+
+/* End session button */
+.end-session-button {
+  margin-top: 2rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  color: #7a8a8a;
+  background: transparent;
+  border: 2px solid #e0e8e8;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.end-session-button:hover {
+  background-color: #f5f8f8;
+  border-color: #c8d8d8;
+}
+
+/* Loading state */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 1.5rem;
+  color: #87a0b0;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .sum-numbers {
+    font-size: 3.5rem;
+  }
+
+  .sum-display {
+    padding: 2.5rem 3.5rem;
+    min-width: 350px;
+  }
+}
+
+@media (max-height: 700px) {
+  .exercise-container {
+    padding: 1rem;
+  }
+
+  .sum-display {
+    padding: 1.5rem 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .progress-info {
+    margin-bottom: 1rem;
+  }
+}
