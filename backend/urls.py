@@ -16,8 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from exercises.views import home, exercises_list, math_exercise, typing_exercise, spelling_exercise
 
 urlpatterns = [
+    path('', home, name='home'),
+    path('exercises/', exercises_list, name='exercises-list'),
+    path('exercises/math/', math_exercise, name='math-exercise'),
+    path('exercises/typing/', typing_exercise, name='typing-exercise'),
+    path('exercises/spelling/', spelling_exercise, name='spelling-exercise'),
     path('admin/', admin.site.urls),
     path('api/', include('exercises.urls')),
 ]
